@@ -5,7 +5,7 @@ import App from './App';
 import actionCable from "actioncable";
 
 const CableApp = {};
-CableApp.cable = actionCable.createConsumer("ws://localhost:3000/cable");
+CableApp.cable = actionCable.createConsumer("wss://ancient-basin-80711.herokuapp.com/cable");
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
