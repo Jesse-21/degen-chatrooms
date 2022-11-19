@@ -4,11 +4,14 @@ const App = ({ cable }) => {
   const [user, setUser] = useState("");
   const [messages, setMessages] = useState([]);
   const [chatMsg, setChatMsg] = useState("");
-  const lastMessageRef = useRef(null)
+  const lastMessageRef = useRef(null);
 
   useEffect(() => {
-    lastMessageRef.current.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
-  }, [messages])
+    lastMessageRef.current.scrollIntoView({
+      behavior: "smooth",
+      block: "nearest",
+    });
+  }, [messages]);
 
   const createUUID = () => {
     let dt = new Date().getTime();
@@ -25,36 +28,37 @@ const App = ({ cable }) => {
   };
 
   const fetchUser = async (userId) => {
-    const response = await fetch("https://ancient-basin-80711.herokuapp.com/connect", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        user_id: userId,
-      }),
-    });
+    const response = await fetch(
+      "https://ancient-basin-80711.herokuapp.com/connect",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: userId,
+        }),
+      }
+    );
 
     const data = await response.json();
     return data;
   };
 
   useEffect(() => {
-    if (user) {
-      fetch("https://ancient-basin-80711.herokuapp.com/message_history", {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }).then((r) => {
-        if (r.ok) {
-          r.json().then((data) => {
-            setMessages(data);
-          });
-        }
-      });
-    }
-  }, [user]);
+    fetch("https://ancient-basin-80711.herokuapp.com/message_history", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    }).then((r) => {
+      if (r.ok) {
+        r.json().then((data) => {
+          setMessages(data);
+        });
+      }
+    });
+  }, []);
 
   useEffect(() => {
     const localId = localStorage.getItem("chatroomUserId");
@@ -68,20 +72,20 @@ const App = ({ cable }) => {
       setUser(localId);
       fetchUser(localId);
     }
-  }, [user]);
+  }, []);
 
   useEffect(() => {
     cable.subscriptions.create(
-        {
-          channel: "ChatsChannel",
+      {
+        channel: "ChatsChannel",
+      },
+      {
+        received: (message) => {
+          setMessages([...messages, message]);
         },
-        {
-          received: (message) => {
-            setMessages((prev) => [...prev, message]);
-          },
-        }
-      );
-  }, [cable.subscriptions, messages]);
+      }
+    );
+  }, [cable.subscriptions, messages, setMessages]);
 
   const handleChat = async (e) => {
     e.preventDefault();
@@ -138,7 +142,10 @@ const App = ({ cable }) => {
             id=""
             onChange={(e) => setChatMsg(e.target.value)}
           />
-          <button className="flex flex-row justify-center items-center rounded px-2 bg-blue-900 hover:bg-blue-800" type="submit">
+          <button
+            className="flex flex-row justify-center items-center rounded px-2 bg-blue-900 hover:bg-blue-800"
+            type="submit"
+          >
             Send
           </button>
         </div>
