@@ -54,7 +54,7 @@ const App = ({ cable }) => {
         }
       });
     }
-  }, [user, setMessages]);
+  }, [user]);
 
   useEffect(() => {
     const localId = localStorage.getItem("chatroomUserId");
@@ -81,7 +81,7 @@ const App = ({ cable }) => {
           },
         }
       );
-  }, [cable.subscriptions, messages, user]);
+  }, [cable.subscriptions, messages]);
 
   const handleChat = async (e) => {
     e.preventDefault();
@@ -98,7 +98,7 @@ const App = ({ cable }) => {
 
     setChatMsg("");
   };
-  
+
   return (
     <div className="min-h-screen min-w-full flex flex-col items-center bg-[#1F1F33] text-white">
       <h1 className="text-2xl font-bold">{`Hello ${user}`}</h1>
