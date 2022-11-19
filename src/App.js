@@ -61,6 +61,7 @@ const App = ({ cable }) => {
   }, []);
 
   useEffect(() => {
+    if (user) return;
     const localId = localStorage.getItem("chatroomUserId");
 
     if (!localId) {
@@ -72,7 +73,7 @@ const App = ({ cable }) => {
       setUser(localId);
       fetchUser(localId);
     }
-  }, []);
+  }, [user]);
 
   useEffect(() => {
     cable.subscriptions.create(
