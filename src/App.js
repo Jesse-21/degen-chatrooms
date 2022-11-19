@@ -70,8 +70,8 @@ const App = ({ cable }) => {
       fetchUser(newLocalId);
       setUser(newLocalId);
     } else {
-      setUser(localId);
       fetchUser(localId);
+      setUser(localId);
     }
   }, [user]);
 
@@ -105,7 +105,7 @@ const App = ({ cable }) => {
   };
 
   return (
-    <div className="min-h-screen min-w-full flex flex-col items-center bg-[#1F1F33] text-white">
+    <div className="min-h-screen min-w-full flex flex-col items-center bg-[#1F1F33] text-white p-2 md:p-0">
       <h1 className="text-2xl font-bold">{`Hello ${user}`}</h1>
       <div className="flex flex-col border border-gray-600 max-w-2xl max-h-[32rem] overflow-y-scroll w-full rounded shadow my-3 p-4">
         {messages.map((message) => {
@@ -135,9 +135,9 @@ const App = ({ cable }) => {
         <div ref={lastMessageRef} />
       </div>
       <form onSubmit={(e) => handleChat(e)}>
-        <div className="flex gap-2">
+        <div className="flex gap-2 w-screen justify-center p-2 md:p-0">
           <input
-            className="bg-[#1F1F44] w-[22rem] rounded border border-gray-500 p-2"
+            className="bg-[#1F1F44] w-80 rounded border border-gray-500 p-2"
             type="text"
             name="message"
             id=""
