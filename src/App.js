@@ -113,57 +113,59 @@ const App = ({ cable }) => {
   return (
     <div className="min-h-screen min-w-full flex flex-col items-center bg-[#1F1F33] text-white p-2 md:p-0">
       <h1 className="text-2xl font-bold">{`Hello ${user}`}</h1>
-      {isLoading && <h1>Loading...</h1>}
+      {isLoading && <h1>Loading chatroom...</h1>}
       {!isLoading && (
-        <div className="flex flex-col border border-gray-600 max-w-2xl max-h-[32rem] overflow-y-scroll w-full rounded shadow my-3 p-4">
-          {messages.map((message) => {
-            const fromYou = message.sender_id === user;
-            return (
-              <div
-                className="flex flex-col my-2"
-                key={`chat-key-${message.id}`}
-              >
-                <span
-                  className={`flex flex-col flex-wrap ${
-                    fromYou ? "items-end" : "items-start"
-                  }`}
+        <>
+          <div className="flex flex-col border border-gray-600 max-w-2xl max-h-[32rem] overflow-y-scroll w-full rounded shadow my-3 p-4">
+            {messages.map((message) => {
+              const fromYou = message.sender_id === user;
+              return (
+                <div
+                  className="flex flex-col my-2"
+                  key={`chat-key-${message.id}`}
                 >
-                  <h1 className="text-xs">{!fromYou && message.sender_id}</h1>
-                  <div
-                    className={`w-fit px-4 py-1.5 shadow ${
-                      fromYou
-                        ? "bg-[#3738A4] ml-4 rounded-t-3xl rounded-bl-3xl"
-                        : "bg-neutral-700 mr-4 rounded-tr-3xl rounded-b-3xl"
+                  <span
+                    className={`flex flex-col flex-wrap ${
+                      fromYou ? "items-end" : "items-start"
                     }`}
                   >
-                    <h1>{message.content}</h1>
-                  </div>
-                  <h1 className="text-xs">{fromYou && "You"}</h1>
-                </span>
-              </div>
-            );
-          })}
-          <div ref={lastMessageRef} />
-        </div>
+                    <h1 className="text-xs">{!fromYou && message.sender_id}</h1>
+                    <div
+                      className={`w-fit px-4 py-1.5 shadow ${
+                        fromYou
+                          ? "bg-[#3738A4] ml-4 rounded-t-3xl rounded-bl-3xl"
+                          : "bg-neutral-700 mr-4 rounded-tr-3xl rounded-b-3xl"
+                      }`}
+                    >
+                      <h1>{message.content}</h1>
+                    </div>
+                    <h1 className="text-xs">{fromYou && "You"}</h1>
+                  </span>
+                </div>
+              );
+            })}
+            <div ref={lastMessageRef} />
+          </div>
+          <form onSubmit={(e) => handleChat(e)}>
+            <div className="flex gap-2 w-screen justify-center p-2 md:p-0">
+              <input
+                className="bg-[#1F1F44] w-80 rounded border border-gray-500 p-2"
+                type="text"
+                name="message"
+                value={chatMsg}
+                id=""
+                onChange={(e) => setChatMsg(e.target.value)}
+              />
+              <button
+                className="flex flex-row justify-center items-center rounded px-2 bg-blue-900 hover:bg-blue-800"
+                type="submit"
+              >
+                Send
+              </button>
+            </div>
+          </form>
+        </>
       )}
-      <form onSubmit={(e) => handleChat(e)}>
-        <div className="flex gap-2 w-screen justify-center p-2 md:p-0">
-          <input
-            className="bg-[#1F1F44] w-80 rounded border border-gray-500 p-2"
-            type="text"
-            name="message"
-            value={chatMsg}
-            id=""
-            onChange={(e) => setChatMsg(e.target.value)}
-          />
-          <button
-            className="flex flex-row justify-center items-center rounded px-2 bg-blue-900 hover:bg-blue-800"
-            type="submit"
-          >
-            Send
-          </button>
-        </div>
-      </form>
     </div>
   );
 };
